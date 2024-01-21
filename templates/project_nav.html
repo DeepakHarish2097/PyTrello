@@ -1,0 +1,29 @@
+<aside>
+    <h2>PyTrello</h2>
+    <ul>
+        {% for board_group in board_groups %}
+            <li>
+                <strong><i class="bi bi-card-list"></i> {{ board_group.name | slice:":18" }}</strong>
+                <ul>
+                    {% for board in board_group.boards %}
+                        <li><a href="#" id="{{ board.id }}">{{ board.name | slice:":18" }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+        {% if other_boards %}
+            <li>
+                <strong><i class="bi bi-card-list"></i> Other Boards</strong>
+                <ul>
+                    {% for board in other_boards %}
+                        <li><a href="#" id="{{ board.id }}">{{ board.name | slice:":18" }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endif %}
+    </ul>
+</aside>
+<script>
+    let board = document.getElementById("{{ active_menu }}")
+    board.classList.add("active")
+</script>

@@ -1,0 +1,81 @@
+<div class="row">
+    <div class="col-auto">
+        <div class="add-task-form">
+            <form id="addTaskForm" class="form-inline">
+                <div class="row">
+                    <div class="col-auto">
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="taskName"
+                                placeholder="Task Name"
+                                required
+                        />
+                    </div>
+                    <div class="col-auto">
+                        <button
+                                type="button"
+                                class="btn btn-primary"
+                                onclick="addTask()"
+                        >
+                            Add Task
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-auto">
+        <div class="add-column-form">
+            <form id="addColumnForm" class="form-inline">
+                <div class="row">
+                    <div class="col-auto">
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="columnName"
+                                placeholder="Column Name"
+                                required
+                        />
+                    </div>
+                    <div class="col-auto">
+                        <button
+                                type="button"
+                                class="btn btn-success"
+                                onclick="addColumn()"
+                        >
+                            Add Column
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="kanban-board" id="kanbanBoard">
+
+    <div
+            id="todo"
+            class="column"
+            ondrop="drop(event)"
+            ondragover="allowDrop(event)"
+    >
+        <h3>To Do</h3>
+    </div>
+    <div
+            id="inProgress"
+            class="column"
+            ondrop="drop(event)"
+            ondragover="allowDrop(event)"
+    >
+        <h3>In Progress</h3>
+    </div>
+    <div
+            id="done"
+            class="column"
+            ondrop="drop(event)"
+            ondragover="allowDrop(event)"
+    >
+        <h3>Done</h3>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+{% extends "base_template.html" %}
+
+{% block content %}
+<div class="mx-4 mt-5">
+    <div class="row">
+        <div class="col">
+            <a href="{% url "add_project" %}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add Project</a>
+        </div>
+        <div class="col">
+            <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-7">
+                        <label for="id-search" hidden>Search</label>
+                        <input type="text" class="form-control" name="search" id="id-search" placeholder="Search...">
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-success"><i class="bi bi-search"></i> Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row mt-5" data-masonry='{"percentPosition": true }'>
+        {% for project in projects %}
+            <div class="col-auto mb-4" style="left: 0%; top: 0px;">
+                <div class="card card-link" style="width: 15rem; background-color: {{project.colour}}; color: {{project.text_colour}}" 
+                    onclick="location.href = '{% url "edit_project" project.id %}';">
+                    {% if project.image %}
+                        <img src="{{project.image.url}}" class="card-img-top">
+                    {% endif %}
+                    <div class="card-body">
+                      <h5 class="card-title">{{project.name}}</h5>
+                      <p class="card-text">{{project.description | slice:":75" }}{% if project.description|length > 75 %}...{% endif %}</p>
+                      <a href="https://www.google.com" class="btn btn-info"><i class="bi bi-pencil-square"></i></a>
+                    </div>
+                  </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

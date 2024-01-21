@@ -1,0 +1,14 @@
+<ol class="breadcrumb breadcrumb-chevron mb-2 mt-2 bg-body-tertiary rounded-3 sticky-top">
+    {% for crumb in bread_crumbs %}
+        {% if crumb != last_crumb %}
+            <li class="breadcrumb-item">
+                <a class="link-body-emphasis fw-semibold text-decoration-none" href="#">{{ crumb }}
+                </a>
+            </li>
+        {% else %}
+            <li class="breadcrumb-item active" aria-current="page">
+                {{ crumb }}
+            </li>
+        {% endif %}
+    {% endfor %}
+</ol>

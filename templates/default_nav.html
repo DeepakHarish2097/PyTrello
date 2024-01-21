@@ -1,0 +1,10 @@
+<aside>
+    <h2>PyTrello</h2>
+    <ul>
+        <li><a href="{% url "projects" %}" id="menu-projects"><i class="bi bi-kanban-fill"></i> Projects</a></li>
+    </ul>
+</aside>
+<script>
+    let board = document.getElementById("{{ active_menu }}")
+    board.classList.add("active")
+</script>

@@ -1,0 +1,145 @@
+body {
+    font-family: monospace;
+    margin: 0;
+    padding: 0;
+    background-color: #1e1e1e; /* Dark background color */
+    color: #fff;
+    display: flex;
+}
+
+aside {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 250px;
+    background-color: #000000;
+    padding: 0 20px 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+/* Custom scrollbar for WebKit browsers (Chrome, Safari) */
+aside::-webkit-scrollbar {
+    width: 7px;
+}
+
+aside::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 6px;
+}
+
+aside::-webkit-scrollbar-track {
+    background-color: #333;
+}
+
+/* Custom scrollbar for Firefox and other browsers */
+aside {
+    scrollbar-width: thin;
+    scrollbar-color: #888 #333;
+}
+
+aside::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+.main-content {
+    margin-left: 250px;
+    width: 100%;
+}
+
+.kanban-board {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+
+.column {
+    flex: 0 0 250px;
+    min-height: 100vh;
+    margin: 10px;
+    padding: 8px;
+    background-color: #333;
+    border-radius: 4px;
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.1);
+}
+
+.task {
+    background-color: #555;
+    padding: 8px;
+    margin: 8px 0;
+    border-radius: 4px;
+    cursor: grab;
+}
+
+.add-task-form,
+.add-column-form {
+    text-align: center;
+    margin: 20px;
+}
+
+.add-task-form form,
+.add-column-form form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-task-form label,
+.add-column-form label {
+    margin-right: 10px;
+}
+
+.column h3 {
+    text-align: center;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #555;
+}
+
+aside h2 {
+    position: sticky;
+    top: 0;
+    background-color: #000;
+    padding: 20px 10px 10px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #555;
+    z-index: 1;
+    font-size: xxx-large;
+}
+
+aside ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+aside li {
+    margin-bottom: 10px;
+}
+
+aside a {
+    text-decoration: none;
+    color: #fff;
+    display: block;
+    padding: 5px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+aside a.active {
+    background-color: #555;
+}
+
+aside strong {
+    text-decoration: none;
+    display: block;
+    padding: 5px;
+    border-bottom: 1px solid #3f3f3f;
+}
+
+tbody {
+    cursor: grab;
+}
+
+.card-link:hover {
+    cursor: pointer;
+}
