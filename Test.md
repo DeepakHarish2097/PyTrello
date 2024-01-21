@@ -1,7 +1,6 @@
 # Test
 
 ### Default Context
-test
 ```
 context = {
         "bread_crumbs": ["Breadcrumb 1", "Breadcrumb 2", "Breadcrumb 3"],
