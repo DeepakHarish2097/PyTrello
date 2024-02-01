@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Project
 from .forms import ProjectForm
-import colorsys
 
 
 def projects_view(request):
@@ -78,3 +77,7 @@ def edit_project(request, id: int):
         "colour": project.colour,
     }
     return render(request, 'project/forms.html', context)
+
+
+def project_view(request, id: int):
+    project = Project.objects.get(pk=id)
