@@ -11,5 +11,7 @@
                 <li>Render Markdown</li>
             </ul>
     </li>
+    <li>Imporve Breadcrumbs</li>
+    <li>Dynamic Navbar</li>
     <li>Unsplash Api</li>
 </ul>

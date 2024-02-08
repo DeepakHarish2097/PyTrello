@@ -21,6 +21,8 @@ class BoardGroup(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
     project = models.ForeignKey(Project, related_name="board_group_set", on_delete=models.CASCADE)
+    colour = models.CharField(max_length=10, null=True, blank=True, default="#1e1e1e")
+    text_colour = models.CharField(max_length=10, null=True, blank=True, default="#ffffff")
 
     def __str__(self):
         return self.name
@@ -35,6 +37,8 @@ class Board(models.Model):
     project = models.ForeignKey(Project, related_name="project_boards_set", on_delete=models.CASCADE)
     board_group = models.ForeignKey(BoardGroup, related_name="group_boards_set", on_delete=models.CASCADE, null=True, blank=True)
     total_stages = models.IntegerField(default=0, null=True)
+    colour = models.CharField(max_length=10, null=True, blank=True, default="#1e1e1e")
+    text_colour = models.CharField(max_length=10, null=True, blank=True, default="#ffffff")
 
     def __str__(self):
         return self.name
