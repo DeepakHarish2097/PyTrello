@@ -1,0 +1,18 @@
+{% extends "base_template.html" %}
+
+{% block content %}
+
+<div class="mx-4 mt-4">
+    <h2>{{project.name}}</h2>
+
+    {% for board_group in project.board_group_set.all %}
+        <div class="mt-3 rounded-5 p-3" style="border: 1px solid red;">
+            <p>{{board_group.name}}</p>
+            {% comment %} {% for boards in board_group.group_boards_set.all %}
+                <p>{{boards.name}}</p>
+            {% endfor %} {% endcomment %}
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock content %}

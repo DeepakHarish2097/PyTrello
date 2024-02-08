@@ -25,7 +25,7 @@
         {% for project in projects %}
             <div class="col-auto mb-4" style="left: 0%; top: 0px;">
                 <div class="card card-link" style="width: 15rem; background-color: {{project.colour}}; color: {{project.text_colour}}" 
-                    onclick="location.href = 'https://www.google.com';">
+                    onclick="location.href = '{% url "project_view" project.id %}';">
                     {% if project.image %}
                         <img src="{{project.image.url}}" class="card-img-top">
                     {% endif %}

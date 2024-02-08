@@ -20,7 +20,7 @@ class BoardGroup(models.Model):
 
     name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, related_name="board_group_set", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -32,8 +32,8 @@ class Board(models.Model):
     description = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to='boards/', null=True, blank=True)
     # network_image = models.URLField(null=True, blank=True)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    board_group = models.ForeignKey(BoardGroup, on_delete=models.CASCADE, null=True, blank=True)
+    project = models.ForeignKey(Project, related_name="project_boards_set", on_delete=models.CASCADE)
+    board_group = models.ForeignKey(BoardGroup, related_name="group_boards_set", on_delete=models.CASCADE, null=True, blank=True)
     total_stages = models.IntegerField(default=0, null=True)
 
     def __str__(self):

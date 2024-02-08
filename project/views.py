@@ -81,3 +81,10 @@ def edit_project(request, id: int):
 
 def project_view(request, id: int):
     project = Project.objects.get(pk=id)
+    context = {
+        "project": project,
+        "bread_crumbs": ["Projects", project.name],
+        "last_crumb": project.name,
+        "active_menu": "menu-projects"
+    }
+    return render(request, 'project/project_view.html', context)

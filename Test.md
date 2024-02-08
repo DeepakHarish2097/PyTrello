@@ -80,3 +80,6 @@ context = {
     }
     
 ```
+
+### To get url from redirect
+`print(redirect('project_view', id=id).url)`
