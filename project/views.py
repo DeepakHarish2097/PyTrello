@@ -77,8 +77,10 @@ def edit_project(request, id: int):
 
 def project_view(request, id: int):
     project = Project.objects.get(pk=id)
+    other_boards = project.project_boards_set.filter(board_group=None)
     context = {
         "project": project,
+        "other_boards": other_boards,
         "bread_crumbs": ["Projects", project.name],
         "last_crumb": project.name,
         "active_menu": "menu-projects"
@@ -130,10 +132,19 @@ def edit_board_group(request, id):
 
 def create_board(request, project_id):
     project = Project.objects.get(pk=project_id)
+    bg_id = request.GET.get("board_group", None)
     board_groups = project.board_group_set.all()
     initial = {"project": project}
+    if bg_id:
+        initial["board_group"] = BoardGroup.objects.get(pk=int(bg_id))
     form = BoardForm(initial=initial)
     form.fields['board_group'].queryset = board_groups
+
+    if request.method == "POST":
+        form = BoardForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect("project_view", project_id)
 
     context = {
         "form": form,
