@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Project, BoardGroup, Board
-from .forms import ProjectForm, BoardGroupForm, BoardForm
+from .forms import ProjectForm, BoardGroupForm, BoardForm, StageForm
 
 
 def projects_view(request):
@@ -143,7 +143,9 @@ def create_board(request, project_id):
     if request.method == "POST":
         form = BoardForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            obj = form.save(commit=False)
+            obj.text_colour = "#000000" if calculate_luminance(hex_to_rgb(obj.colour)) > 0.5 else "#ffffff"
+            obj.save()
             return redirect("project_view", project_id)
 
     context = {
@@ -151,6 +153,63 @@ def create_board(request, project_id):
         "head": "New Board",
         "bread_crumbs": ["Projects", project.name],
         "last_crumb": project.name,
+        "active_menu": "menu-projects"
+    }
+    return render(request, 'project/forms.html', context)
+
+
+def edit_board(request, id: int):
+    board = Board.objects.get(pk=id)
+    form = BoardForm(instance=board)
+    form.fields['board_group'].queryset = board.project.board_group_set.all()
+    if request.method == "POST":
+        form = BoardForm(request.POST, request.FILES, instance=board)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.text_colour = "#000000" if calculate_luminance(hex_to_rgb(obj.colour)) > 0.5 else "#ffffff"
+            obj.save()
+            return redirect('project_view', board.project.id)
+    context = {
+        "form": form,
+        "head": "Edit Board",
+        "bread_crumbs": ["Projects", board.project.name],
+        "last_crumb": board.project.name,
+        "active_menu": "menu-projects"
+    }
+    return render(request, 'project/forms.html', context)
+
+
+def board_view(request, id: int):
+    board = Board.objects.get(pk=id)
+    context = {
+        "board": board,
+        "bread_crumbs": ["Projects", board.project.name, board.name],
+        "last_crumb": board.name,
+        "active_menu": "menu-projects"
+    }
+    if board.image:
+        context['background_image'] = board.image.url
+    return render(request, 'project/board_view.html', context)
+
+
+def add_stage(request, board_id: int):
+    board = Board.objects.get(pk=board_id)
+    initial = {
+        "project": board.project,
+        "board_group": board.board_group,
+        "board": board,
+    }
+    form = StageForm(initial=initial)
+    if request.method == "POST":
+        form = StageForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('board_view', board_id)
+    context = {
+        "form": form,
+        "head": "New Stage",
+        "bread_crumbs": ["Projects", board.project.name, board.name],
+        "last_crumb": board.name,
         "active_menu": "menu-projects"
     }
     return render(request, 'project/forms.html', context)

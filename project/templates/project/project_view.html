@@ -10,10 +10,10 @@
             <a href="#" class="btn btn-success"><i class="bi bi-bookmark-check"></i> Completed</a>
         </div>
         <div class="col-auto">
-            <a href="{% url "create_board_group" project.id %}" class="btn btn-outline-light"><i class="bi bi-plus-lg"></i> Add Board Group</a>
+            <a href="{% url "create_board_group" project.id %}" class="btn btn-outline-light"><i class="bi bi-journal-plus"></i> Add Board Group</a>
         </div>
         <div class="col-auto">
-            <a href="{% url "create_board" project.id %}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add Board</a>
+            <a href="{% url "create_board" project.id %}" class="btn btn-primary"><i class="bi bi-file-plus"></i> Add Board</a>
         </div>
         <div class="col-auto">
             <a href="{% url "edit_project" project.id %}" class="btn btn-info"><i class="bi bi-pencil-square"></i></a>
@@ -25,7 +25,7 @@
             <h4>{{board_group.name}}</h4>
             <div class="row mt-2">
                 <div class="col-auto">
-                    <a href="{% url "create_board" project.id %}?board_group={{board_group.id}}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add Board</a>
+                    <a href="{% url "create_board" project.id %}?board_group={{board_group.id}}" class="btn btn-primary"><i class="bi bi-file-plus"></i> Add Board</a>
                 </div>
                 <div class="col-auto">
                     <a href="{% url "edit_board_group" board_group.id %}" class="btn btn-info"><i class="bi bi-pencil-square"></i></a>
@@ -34,7 +34,8 @@
             <div class="row mt-3">
                 {% for board in board_group.group_boards_set.all %}
                     <div class="col-sm-3 mb-3">
-                        <div class="card border-light" style="background-color: {{board.colour}}; color: {{board.text_colour}}">
+                        <div class="card card-link border-light" style="background-color: {{board.colour}}; color: {{board.text_colour}}"
+                        onclick="location.href = '{% url "board_view" board.id %}'">
                             <div class="card-header border-light">
                                 <h5 class="card-title mb-0">{{board.name}}</h5>
                             </div>
@@ -42,7 +43,7 @@
                                 <p class="card-text">
                                     Total Stages: {{board.total_stages}}
                                 </p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                                <a href="{% url "edit_board" board.id %}" class="btn btn-info"><i class="bi bi-pencil-square"></i></a>
                             </div>
                         </div>
                     </div>

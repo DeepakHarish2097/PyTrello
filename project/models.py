@@ -51,6 +51,7 @@ class Stage(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     board_group = models.ForeignKey(BoardGroup, on_delete=models.CASCADE, null=True, blank=True)
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
+    order = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name

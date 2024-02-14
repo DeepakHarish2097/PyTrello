@@ -11,4 +11,8 @@ urlpatterns = [
     path('edit/board-group/<int:id>', views.edit_board_group, name='edit_board_group'),
     
     path('add/board/<int:project_id>', views.create_board, name='create_board'),
+    path('edit/board/<int:id>', views.edit_board, name='edit_board'),
+    path('view/board/<int:id>', views.board_view, name='board_view'),
+    
+    path('add/stage/<int:board_id>', views.add_stage, name='add_stage'),
 ]
