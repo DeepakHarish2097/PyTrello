@@ -12,11 +12,7 @@ aside {
     top: 0;
     bottom: 0;
     width: 250px;
-<<<<<<< HEAD
     background: rgb(0, 0, 0);
-=======
-    background: rgba( 0, 0, 0, 0.25 );
->>>>>>> ca9bb323bd35d6eec2e550462e105b15113fc182
     padding: 0 20px 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
