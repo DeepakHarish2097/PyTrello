@@ -13,7 +13,9 @@ function drop(event) {
 
     const droppedColumn = event.target.closest(".column");
     droppedColumn.appendChild(taskElement);
-    console.log(droppedColumn);
+    let task_id = parseInt(taskElement.id.split("-")[1]);
+    let stage_id = parseInt(droppedColumn.id.split("-")[1]);
+    moveToStage(task_id, stage_id);
 }
 
 function addTask() {
