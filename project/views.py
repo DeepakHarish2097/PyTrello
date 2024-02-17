@@ -182,11 +182,13 @@ def edit_board(request, id: int):
 
 def board_view(request, id: int):
     board = Board.objects.get(pk=id)
+    stages = board.stage_set.all().order_by("order")
     context = {
         "board": board,
         "bread_crumbs": ["Projects", board.project.name, board.name],
         "last_crumb": board.name,
-        "active_menu": "menu-projects"
+        "active_menu": "menu-projects",
+        "stages": stages,
     }
     if board.image:
         context['background_image'] = board.image.url
@@ -199,12 +201,15 @@ def add_stage(request, board_id: int):
         "project": board.project,
         "board_group": board.board_group,
         "board": board,
+        "order": board.total_stages + 1
     }
     form = StageForm(initial=initial)
     if request.method == "POST":
         form = StageForm(request.POST)
         if form.is_valid():
             form.save()
+            board.total_stages += 1
+            board.save()
             return redirect('board_view', board_id)
     context = {
         "form": form,
@@ -214,6 +219,21 @@ def add_stage(request, board_id: int):
         "active_menu": "menu-projects"
     }
     return render(request, 'project/forms.html', context)
+
+
+def sort_stages(request, board_id: int):
+    board = Board.objects.get(pk=board_id)
+    stages = board.stage_set.all().order_by("order")
+    context = {
+        "board": board,
+        "bread_crumbs": ["Projects", board.project.name, board.name],
+        "last_crumb": board.name,
+        "active_menu": "menu-projects",
+        "stages": stages,
+    }
+    if board.image:
+        context['background_image'] = board.image.url
+    return render(request, "project/sort_stages.html", context)
 
 
 def move_task(request):

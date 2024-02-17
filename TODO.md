@@ -21,6 +21,10 @@
 * Completed Stage
 * Stage Percentage if Auto Compute Disabled
 
+### Task
+
+* Checklist
+
 ### Global Settings
 
 * Default Stages

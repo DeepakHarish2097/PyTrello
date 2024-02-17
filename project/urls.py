@@ -15,5 +15,6 @@ urlpatterns = [
     path('view/board/<int:id>', views.board_view, name='board_view'),
     
     path('add/stage/<int:board_id>', views.add_stage, name='add_stage'),
+    path('sort/stage/<int:board_id>', views.sort_stages, name='sort_stages'),
     path('move/task', views.move_task, name='move_task'),
 ]

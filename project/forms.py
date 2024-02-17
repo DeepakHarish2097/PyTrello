@@ -68,11 +68,12 @@ class StageForm(forms.ModelForm):
     
     class Meta:
         model = Stage
-        fields = ("name", "description", "project", "board_group", "board")
+        fields = ("name", "description", "project", "board_group", "board", "order")
         widgets = {
             'project': forms.HiddenInput(),
             'board_group': forms.HiddenInput(),
             'board': forms.HiddenInput(),
+            'order': forms.HiddenInput(),
         }
     
     def __init__(self, *args, **kwargs):

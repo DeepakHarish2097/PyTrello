@@ -1,0 +1,33 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block content %}
+<h1 class="mb-3 mt-3">{{board.name}} Stage's</h1>
+<table id="sortableTable" class="table table-responsive rounded-1">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Stage</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for stage in stages %}
+        <tr>
+            <th scope="row" data-id="{{stage.id}}">{{stage.order}}</th>
+            <td>{{stage.name}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+ <button class="btn btn-primary" onclick="sortTable()">Submit</button>
+{% endblock content %}
+
+{% block custom_scripts %}
+<script src="{% static 'custom/js/sortable.js' %}"></script>
+<script>
+    function sortTable() {
+        let sortedData = getData();
+        console.log(sortedData);
+    }
+</script>
+{% endblock custom_scripts %}
