@@ -3,7 +3,7 @@
 ## UI Features
 
 * Basic Feature
-  * Project Description as Markdown
+  * Project Website
   * Markdown Editor
   * Render Markdown
 * Imporve Breadcrumbs

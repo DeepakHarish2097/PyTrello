@@ -6,11 +6,13 @@
         <a href="#" class="btn btn-primary"><i class="bi bi-clipboard-plus-fill"></i> Add Task</a>
     </div>
     <div class="col-auto">
-        <a href="{% url "add_stage" board.id %}" class="btn btn-dark"><i class="bi bi-node-plus-fill"></i> Add Stage</a>
+        <a href="{% url 'add_stage' board.id %}" class="btn btn-dark"><i class="bi bi-node-plus-fill"></i> Add Stage</a>
     </div>
 </div>
 
+
 <div class="kanban-board mt-2" id="kanban-board">
+    {% csrf_token %}
     {% for stage in board.stage_set.all %}
         <div class="column" id="stage-{{stage.id}}" ondrop="drop(event)" ondragover="allowDrop(event)">
             <h3>{% if stage.name|length <= 12 %}{{stage.name}}{% else %}{{stage.name|slice:":9"}}...{% endif %}</h3>
@@ -23,14 +25,43 @@
         </div>
     {% endfor %}
 </div>
-{% comment %} {% include "content_sample.html" %} {% endcomment %}
 {% endblock content %}
 
 {% block custom_scripts %}
 <script>
+    let toastList = document.getElementById("toast-list")
+    
+    function moveError() {
+        toastList.innerHTML += `<div class="toast fade show text-bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <?xml version="1.0" ?><!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.0//EN'  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'><svg class="me-2" height="20" style="overflow:visible;enable-background:new 0 0 32 32" viewBox="0 0 32 32" width="20" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><g id="Error_1_"><g id="Error"><circle cx="16" cy="16" id="BG" r="16" style="fill:#D72828;"/><path d="M14.5,25h3v-3h-3V25z M14.5,6v13h3V6H14.5z" id="Exclamatory_x5F_Sign" style="fill:#E6E6E6;"/></g></g></g></svg>
+                <strong class="me-auto">Error</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+              Unable to move the task. Please Refresh the page.
+            </div>
+        </div>`;
+    }
+
     function moveToStage(task_id, stage_id) {
-        console.log(task_id);
-        console.log(stage_id);
+        $.ajax({
+            type: "POST",
+            url: "{% url 'move_task' %}",
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                task_id: task_id,
+                stage_id: stage_id,
+            },
+            success: function (response) {
+                if (response.code !== 200) {
+                    moveError();
+                }
+            },
+            error: function (response) {
+                moveError();
+            }
+        });
     }
 </script>
 {% endblock custom_scripts %}

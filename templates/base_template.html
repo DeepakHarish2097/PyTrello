@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="{% static 'custom/css/breadcrumbs.css' %}"/>
     <title>{% block title %}PyTrello{% endblock title %}</title>
 </head>
-<body style="background-image: url({{ background_image }}); background-position: center; background-size: cover;">
+<body style="background-image: url('{{ background_image }}'); background-position: center; background-size: cover;">
 {% block side_nav %}
     {% include "default_nav.html" %}
 {% endblock side_nav %}
@@ -36,6 +36,9 @@
         {% block content %}
         {% endblock content %}
     </div>
+</div>
+<div class="toast-container p-3 top-0 end-0" id="toast-list" data-original-class="toast-container p-3">
+    
 </div>
 
 <script

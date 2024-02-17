@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from .models import Project, BoardGroup, Board
+from .models import Project, BoardGroup, Board, Task, Stage
 from .forms import ProjectForm, BoardGroupForm, BoardForm, StageForm
+from django.http import JsonResponse
 
 
 def projects_view(request):
@@ -213,3 +214,17 @@ def add_stage(request, board_id: int):
         "active_menu": "menu-projects"
     }
     return render(request, 'project/forms.html', context)
+
+
+def move_task(request):
+    if request.method == "POST":
+        try:
+            task_id = request.POST.get('task_id')
+            stage_id = request.POST.get('stage_id')
+            task = Task.objects.get(pk=task_id)
+            stage = Stage.objects.get(pk=stage_id)
+            task.stage = stage
+            task.save()
+            return JsonResponse({"code": 200})
+        except Exception as e: 
+            return JsonResponse({"code": 400, "message": e})
