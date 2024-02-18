@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.projects_view, name='projects'),
+    path('', views.projects_list, name='projects'),
     path('add/project', views.add_project, name='add_project'),
     path('edit/project/<int:id>', views.edit_project, name='edit_project'),
     path('view/project/<int:id>', views.project_view, name='project_view'),
@@ -15,6 +15,8 @@ urlpatterns = [
     path('view/board/<int:id>', views.board_view, name='board_view'),
     
     path('add/stage/<int:board_id>', views.add_stage, name='add_stage'),
-    path('sort/stage/<int:board_id>', views.sort_stages, name='sort_stages'),
+    path('sort/stage/<int:board_id>', views.sort_stages_view, name='sort_stages_view'),
+    
     path('move/task', views.move_task, name='move_task'),
+    path('sort/stages', views.sort_stages, name='sort_stages'),
 ]

@@ -17,7 +17,7 @@
 
 ### Stages
 
-* Stage Order
+* ~~Stage Order~~
 * Completed Stage
 * Stage Percentage if Auto Compute Disabled
 

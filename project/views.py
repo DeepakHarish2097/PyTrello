@@ -2,9 +2,26 @@ from django.shortcuts import render, redirect
 from .models import Project, BoardGroup, Board, Task, Stage
 from .forms import ProjectForm, BoardGroupForm, BoardForm, StageForm
 from django.http import JsonResponse
+import json
+import time
 
 
-def projects_view(request):
+# //////////////////////////// Colour Functions \\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+def hex_to_rgb(hex_color):
+    hex_color = hex_color.lstrip('#')
+    return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
+
+
+def calculate_luminance(rgb_color):
+    r, g, b = rgb_color[0] / 255.0, rgb_color[1] / 255.0, rgb_color[2] / 255.0
+    luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b
+    return luminance
+
+
+# //////////////////////////// Project Functions \\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+def projects_list(request):
     projects = Project.objects.all()
 
     if request.method == "POST":
@@ -18,17 +35,6 @@ def projects_view(request):
         "active_menu": "menu-projects"
     }
     return render(request, 'project/projects.html', context)
-
-
-def hex_to_rgb(hex_color):
-    hex_color = hex_color.lstrip('#')
-    return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
-
-
-def calculate_luminance(rgb_color):
-    r, g, b = rgb_color[0] / 255.0, rgb_color[1] / 255.0, rgb_color[2] / 255.0
-    luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b
-    return luminance
 
 
 def add_project(request):
@@ -88,6 +94,8 @@ def project_view(request, id: int):
     }
     return render(request, 'project/project_view.html', context)
 
+
+# //////////////////////////// Board Functions \\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 def create_board_group(request, project_id):
     project = Project.objects.get(pk=project_id)
@@ -195,6 +203,8 @@ def board_view(request, id: int):
     return render(request, 'project/board_view.html', context)
 
 
+# //////////////////////////// Stage Functions \\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
 def add_stage(request, board_id: int):
     board = Board.objects.get(pk=board_id)
     initial = {
@@ -221,7 +231,7 @@ def add_stage(request, board_id: int):
     return render(request, 'project/forms.html', context)
 
 
-def sort_stages(request, board_id: int):
+def sort_stages_view(request, board_id: int):
     board = Board.objects.get(pk=board_id)
     stages = board.stage_set.all().order_by("order")
     context = {
@@ -236,6 +246,8 @@ def sort_stages(request, board_id: int):
     return render(request, "project/sort_stages.html", context)
 
 
+# //////////////////////////// AJAX Requests \\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
 def move_task(request):
     if request.method == "POST":
         try:
@@ -248,3 +260,13 @@ def move_task(request):
             return JsonResponse({"code": 200})
         except Exception as e: 
             return JsonResponse({"code": 400, "message": e})
+
+
+def sort_stages(request):
+    if request.method == "POST":
+        sorted_data = json.loads(request.POST.get("sorted_data", "[]"))
+        for data in sorted_data:
+            stage = Stage.objects.get(pk=data['id'])
+            stage.order = int(data['value'])
+            stage.save()
+        return JsonResponse({"code": 200})

@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="{% static 'custom/css/breadcrumbs.css' %}"/>
     <title>{% block title %}PyTrello{% endblock title %}</title>
 </head>
-<body style="background-image: url('{{ background_image }}'); background-position: center; background-size: cover;">
+<body style="background-image: url('{{ background_image }}'); background-position: center; background-size: cover;">   
 {% block side_nav %}
     {% include "default_nav.html" %}
 {% endblock side_nav %}
@@ -32,6 +32,11 @@
             {% include 'breadcrumb.html' %}
         </div>
     </nav>
+    <div id="overlay">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div> 
     <div class="container">
         {% block content %}
         {% endblock content %}
@@ -61,6 +66,6 @@
 
 {% block custom_scripts %}
 {% endblock custom_scripts %}
-<script src="{% static 'custom/js/script.js' %}"></script>
+<script type="text/javascript" src="{% static 'custom/js/script.js' %}"></script>
 </body>
 </html>

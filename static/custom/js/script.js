@@ -1,3 +1,13 @@
+let overlay = document.getElementById("overlay");
+
+function showOverlay() {
+    overlay.style.display = "flex";
+}
+
+function hideOverlay() {
+    overlay.style.display = "none";
+}
+
 function allowDrop(event) {
     event.preventDefault();
 }
@@ -10,6 +20,7 @@ function drop(event) {
     event.preventDefault();
     const taskId = event.dataTransfer.getData("text/plain");
     const taskElement = document.getElementById(taskId);
+    taskElement.classList.remove('is-dragging');
 
     const droppedColumn = event.target.closest(".column");
     droppedColumn.appendChild(taskElement);
