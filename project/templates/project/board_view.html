@@ -3,7 +3,7 @@
 {% block content %}
 <div class="row mt-4 mx-1">
     <div class="col-auto">
-        <a href="#" class="btn btn-primary"><i class="bi bi-clipboard-plus-fill"></i> Add Task</a>
+        <a href="{% url 'add_task' board.id %}" class="btn btn-primary"><i class="bi bi-clipboard-plus-fill"></i> Add Task</a>
     </div>
     <div class="col-auto">
         <a href="{% url 'add_stage' board.id %}" class="btn btn-dark"><i class="bi bi-node-plus-fill"></i> Add Stage</a>
@@ -30,11 +30,11 @@
     {% csrf_token %}
     {% for stage in stages %}
         <div class="column" id="stage-{{stage.id}}" ondrop="drop(event)" ondragover="allowDrop(event)">
-            <h3>{% if stage.name|length <= 12 %}{{stage.name}}{% else %}{{stage.name|slice:":9"}}...{% endif %}</h3>
+            <a class="stage-head" href="#">{% if stage.name|length <= 12 %}{{stage.name}}{% else %}{{stage.name|slice:":9"}}...{% endif %}</a>
             {% for task in stage.task_set.all %}
             <div class="task" draggable="true" id="task-{{task.id}}" ondragstart="this.classList.add('is-dragging');drag(event);">
                 <div>{{task.name}}</div>
-                <a class="btn btn-sm btn-dark" href="https://www.google.com">Click me</a>
+                <a class="btn btn-sm btn-dark" href="{% url 'edit_task' task.id %}"><i class="bi bi-pencil-square"></i></a>
             </div>
             {% endfor %}
         </div>

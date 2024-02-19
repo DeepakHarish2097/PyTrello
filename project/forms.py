@@ -1,5 +1,5 @@
 from django import forms
-from .models import Project, BoardGroup, Board, Stage
+from .models import Project, BoardGroup, Board, Stage, Task
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
@@ -78,6 +78,27 @@ class StageForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         super(StageForm, self).__init__(*args, **kwargs)
+        
+        self.fields['description'].widget.attrs.update({'rows': "3"})
+        self.helper = FormHelper()
+        self.helper.form_class = 'form-horizontal'
+        self.helper.label_class = 'col-lg-2'
+        self.helper.field_class = 'col-lg-8'
+        self.helper.add_input(Submit('submit', 'Submit'))
+
+
+class TaskForm(forms.ModelForm):
+    class Meta:
+        model = Task
+        fields = ['name', 'description', 'project', 'board_group', 'board', 'stage']
+        widgets = {
+            'project': forms.HiddenInput(),
+            'board_group': forms.HiddenInput(),
+            'board': forms.HiddenInput(),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(TaskForm, self).__init__(*args, **kwargs)
         
         self.fields['description'].widget.attrs.update({'rows': "3"})
         self.helper = FormHelper()

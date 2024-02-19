@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Project, BoardGroup, Board, Task, Stage
-from .forms import ProjectForm, BoardGroupForm, BoardForm, StageForm
+from .forms import ProjectForm, BoardGroupForm, BoardForm, StageForm, TaskForm
 from django.http import JsonResponse
 import json
 import time
@@ -244,6 +244,60 @@ def sort_stages_view(request, board_id: int):
     if board.image:
         context['background_image'] = board.image.url
     return render(request, "project/sort_stages.html", context)
+
+
+# //////////////////////////// Task Functions \\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+def add_task(request, board_id: int):
+    board = Board.objects.get(pk=board_id)
+    initial = {
+        "project": board.project,
+        "board_group": board.board_group,
+        "board": board,
+    }
+    stages = board.stage_set.all().order_by("order")
+    if stages:
+        initial['stage'] = stages.get(order=1)
+    form = TaskForm(initial=initial)
+    form.fields['stage'].queryset = stages
+
+    if request.method == "POST":
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('board_view', board_id)
+
+    context = {
+        "form": form,
+        "head": "Add Task",
+        "bread_crumbs": ["Projects", board.project.name, board.name],
+        "last_crumb": board.name,
+        "active_menu": "menu-projects"
+    }
+    return render(request, 'project/forms.html', context)
+
+
+def edit_task(request, id):
+    task = Task.objects.get(pk=id)
+    board = task.board
+    stages = board.stage_set.all().order_by("order")
+    form = TaskForm(instance=task)
+    form.fields['stage'].queryset = stages
+
+    if request.method == "POST":
+        form = TaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return redirect('board_view', board.id)
+
+    context = {
+        "form": form,
+        "head": "Edit Task",
+        "bread_crumbs": ["Projects", board.project.name, board.name],
+        "last_crumb": board.name,
+        "active_menu": "menu-projects"
+    }
+    return render(request, 'project/forms.html', context)
 
 
 # //////////////////////////// AJAX Requests \\\\\\\\\\\\\\\\\\\\\\\\\\\\
